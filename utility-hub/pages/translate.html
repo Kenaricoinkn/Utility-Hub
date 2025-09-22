@@ -1,6 +1,6 @@
 <!doctype html><html lang="id"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Utility Hub — Translate & Converter Online</title>
+<title>Translate Online — Utility Hub</title>
 
   <meta name="description" content="Utility Hub: Translate, Convert, Subtitle — gratis, cepat, & aman.">
   <meta property="og:title" content="Utility Hub">
@@ -26,21 +26,46 @@
       <a class="underline" href="/tos.html">Terms</a>
     </nav>
   </header>
-  <div class='my-4'>
+  
+  
+  <h1 class="text-2xl font-bold">🌍 Translate</h1>
+  <div class="mt-4 grid md:grid-cols-2 gap-4">
+    <div>
+      <label class="text-sm opacity-70">Teks</label>
+      <textarea id="src" rows="8" class="w-full text-black rounded-lg p-3" placeholder="Tulis teks di sini..."></textarea>
+      <div class="flex items-center gap-3 mt-2">
+        <select id="target" class="text-black rounded p-2">
+          <option value="en">Inggris</option><option value="id">Indonesia</option>
+          <option value="ar">Arab</option><option value="es">Spanyol</option><option value="ja">Jepang</option>
+        </select>
+        <button id="go" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg">Terjemahkan</button>
+      </div>
+    </div>
+    <div>
+      <label class="text-sm opacity-70">Hasil</label>
+      <textarea id="dst" rows="8" class="w-full text-black rounded-lg p-3" readonly></textarea>
+    </div>
+  </div>
+  <script>
+  document.getElementById('go').onclick = async () => {
+    const q = document.getElementById('src').value.trim();
+    const target = document.getElementById('target').value;
+    if (!q) return alert('Teks kosong');
+    const r = await fetch('/api/translate', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ q, target, source:'auto', format:'text' })
+    });
+    const j = await r.json();
+    if (!r.ok) return alert(j.error || 'Gagal');
+    document.getElementById('dst').value = j.translatedText || '';
+  };
+  </script>
+
+  <div class='my-6'>
   <!-- Ads: responsive block -->
   <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
-  
-  <h1 class="text-3xl font-bold">Utility Hub — Translate & Converter Online</h1>
-  <p class="opacity-80">Tool gratis: Translate, Converter, Subtitle — cepat & aman.</p>
-  <div class="grid md:grid-cols-3 gap-4 mt-6">
-    <a class="p-5 bg-slate-800 rounded-xl hover:bg-slate-700" href="/translate.html">🌍 Translate</a>
-    <a class="p-5 bg-slate-800 rounded-xl hover:bg-slate-700" href="/convert.html">🎥 Converter</a>
-    <a class="p-5 bg-slate-800 rounded-xl hover:bg-slate-700" href="/subtitle.html">📝 Subtitle Tools</a>
-  </div>
-
-  
   <footer class="mt-10 text-xs opacity-60">
     © 2025 Utility Hub • <a class="underline" href="/about.html">About</a> • <a class="underline" href="/contact.html">Contact</a> • <a class="underline" href="/privacy.html">Privacy</a> • <a class="underline" href="/tos.html">Terms</a>
   </footer>
